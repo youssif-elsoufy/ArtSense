@@ -66,67 +66,83 @@ TMDB 5000 Movies Dataset — Movie information used for retrieval.
 
 ---
 
-⚙️ Installation
+## ⚙️ Installation
 
-Prerequisites
+### Prerequisites
 
-Python 3.10 or later.
+- Python 3.10 or later.
+- A GitHub account to clone the repository.
+- A Kaggle account to run the AI backend notebook.
+- An Ngrok account and authentication token to expose the backend API during development.
 
-pip package manager.
-
-Access to the project files and the required model resources.
-
-1. Clone the repository
+### 1. Clone the Repository
 
 git clone YOUR_GITHUB_REPOSITORY_URL
-cd CineMatch
+cd ArtSense
 
-Replace YOUR_GITHUB_REPOSITORY_URL with your repository's actual URL.
+Replace `YOUR_GITHUB_REPOSITORY_URL` with the URL of your ArtSense GitHub repository.
 
-2. Create a virtual environment (optional)
+Alternatively, download the repository as a ZIP file from GitHub and extract it.
 
-python -m venv venv
+### 2. Install Frontend Dependencies
 
-Activate it on Windows:
+Open a terminal in the project directory and run:
 
-venv\Scripts\activate
+python -m pip install streamlit requests
 
-3. Install dependencies
+These packages are required to run the Streamlit interface and send requests to the AI backend.
 
-pip install streamlit requests
+### 3. Set Up the AI Backend
 
-The AI backend requires additional dependencies and a compatible environment. Refer to the notebook for the backend setup.
+1. Open `artsense.ipynb` in Kaggle.
+2. Enable GPU acceleration in the notebook settings if available.
+3. Run the notebook cells in order to load the movie dataset, generate embeddings, build the FAISS index, and initialize the language model.
+4. Install and configure FastAPI, Uvicorn, and Pyngrok as required by the notebook.
+5. Configure your Ngrok authentication token securely.
+6. Start the FastAPI server and create an Ngrok tunnel.
+7. Copy the generated public API endpoint.
 
-4. Configure the backend URL
+**Important:** The Kaggle notebook and Ngrok tunnel must remain active while using this development setup. Availability depends on Kaggle session limits and the tunnel connection.
 
-Update the API_URL in app.py to point to your running FastAPI endpoint.
+### 4. Configure the Frontend
 
-Configure any required API keys securely. Do not commit API keys, authentication tokens, or other secrets to GitHub.
+Open `app.py` and configure `API_URL` to point to the active backend endpoint, including the `/recommend` path.
+
+Configure the required API authentication on both the frontend and backend. Do not commit API keys or Ngrok tokens to a public repository.
 
 ---
 
-🚀 Usage
+## 🚀 Usage
 
-Start the AI backend and make its API endpoint accessible.
+### 1. Start the AI Backend
 
-Set the correct backend URL and authentication configuration in app.py.
+Open `artsense.ipynb` in Kaggle and run the required cells in order. Wait until the FastAPI server starts and the Ngrok public endpoint is displayed.
 
-Open a terminal in the project directory.
+### 2. Launch the Web Application
 
-Run the Streamlit application:
+On your computer, open a terminal in the ArtSense project directory and run:
 
 python -m streamlit run app.py
 
-Open the local URL displayed in the terminal.
+Streamlit will display a local URL in the terminal. Open that URL in your browser.
 
-Describe a movie idea, story, or situation in the input field.
+### 3. Generate Recommendations
 
-Click Recommend Movies to receive relevant movie suggestions and explanations.
+1. Enter a creative idea, story concept, or scenario in the input field.
+2. Click **Recommend Movies**.
+3. ArtSense sends your idea to the backend.
+4. The backend retrieves semantically similar movies and uses the language model to generate structured recommendations with explanations.
+5. Review the recommended movies and why they match your idea.
 
-Example input:
+### Example Input
 
-A group of friends trapped in an abandoned place where something dangerous is hunting them.
+"A group of friends trapped in an abandoned place where something dangerous is hunting them."
 
+### Expected Output
+
+ArtSense returns a list of relevant movie recommendations, each accompanied by an explanation of how it relates to the submitted idea.
+
+**Note:** This setup is intended for development and demonstration. The application is not permanently available when the Kaggle session or Ngrok tunnel stops.
 ---
 
 # 📸 Demo
